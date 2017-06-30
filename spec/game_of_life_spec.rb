@@ -4,7 +4,12 @@ describe 'Game of Life' do
     if neighbours.count { |cell| cell == '.' } >= 2
       world[0][0] = '.'
     end
-      
+
+    neighbours = [ world[0][0], world[1][0], world[1][1] ]
+    if neighbours.count { |cell| cell == '.' } >= 2
+      world[0][1] = '.'
+    end
+    
     world
   end
 
@@ -38,6 +43,7 @@ describe 'Game of Life' do
         '..'
       ]
     end
+
     it 'dies in the next generation' do
       cell_in_next_gen = next_generation(world)[0][0]
       
@@ -59,13 +65,23 @@ describe 'Game of Life' do
         '**',
         '..'
       ]
+
       cell_in_next_gen = next_generation(world)[0][0]
       
       expect(cell_in_next_gen).to eq '.'
     end
 
     describe 'The neighbouring live cell' do
-      it 'also dies in the next generation'
+      it 'also dies in the next generation' do
+        world = [
+          '**',
+          '..'
+        ]
+
+        cell_in_next_gen = next_generation(world)[0][1]
+
+        expect(cell_in_next_gen).to eq '.'
+      end
     end
 
     it 'continues to have 2 neighbouring dead cells'
