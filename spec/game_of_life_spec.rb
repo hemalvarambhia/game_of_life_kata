@@ -108,7 +108,11 @@ describe 'Game of Life' do
     end
 
     describe '2nd live neighbouring cell' do
-      it 'lives on to the next generation'
+      it 'lives on to the next generation' do
+        cell_in_next_gen = next_generation(world)[1][0]
+      
+        expect(cell_in_next_gen).to eq '*'
+      end
     end
 
     describe '3rd live neighbouring cell' do
