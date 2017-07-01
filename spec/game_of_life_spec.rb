@@ -60,12 +60,14 @@ describe 'Game of Life' do
   end
 
   describe 'A live cell with 1 live neighbour and 2 dead ones' do
-    it 'dies in the next generation' do
-      world = [
+    let(:world) do
+      [
         '**',
         '..'
       ]
+    end
 
+    it 'dies in the next generation' do
       cell_in_next_gen = next_generation(world)[0][0]
       
       expect(cell_in_next_gen).to eq '.'
@@ -73,17 +75,17 @@ describe 'Game of Life' do
 
     describe 'The neighbouring live cell' do
       it 'also dies in the next generation' do
-        world = [
-          '**',
-          '..'
-        ]
-
         cell_in_next_gen = next_generation(world)[0][1]
 
         expect(cell_in_next_gen).to eq '.'
       end
     end
 
-    it 'continues to have 2 neighbouring dead cells'
+    it 'continues to have 2 neighbouring dead cells' do
+      cells_in_next_gen = next_generation(world)
+      
+      dead_neighbours = [ cells_in_next_gen[1][0], cells_in_next_gen[1][1] ]
+      expect(dead_neighbours).to all eq '.'
+    end
   end
 end
