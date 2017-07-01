@@ -93,6 +93,33 @@ describe 'Game of Life' do
     end
   end
 
+  describe 'A live cell with 2 live neighbours and 1 dead one' do
+    let(:world) do
+      [
+        '*.',
+        '**'
+      ]
+    end
+    
+    it 'lives on to the next generation' do
+      cell_in_next_gen = next_generation(world)[0][0]
+      
+      expect(cell_in_next_gen).to eq '*'
+    end
+
+    describe '2nd live neighbouring cell' do
+      it 'lives on to the next generation'
+    end
+
+    describe '3rd live neighbouring cell' do
+      it 'lives on to the next generation'
+    end
+
+    describe 'Dead neighbouring cell' do
+      it 'is revived'
+    end
+  end
+
   RSpec::Matchers.define :be_dead do
     match do |cell|
       cell == '.'
