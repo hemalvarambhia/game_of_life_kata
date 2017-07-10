@@ -9,7 +9,11 @@ describe 'Game of Life' do
     if neighbours.count { |cell| alive?(cell) } < 2
       world[0][1] = '.'
     end
-    
+
+    if neighbours.count { |cell| alive?(cell) } == 3
+      world[0][1] = '*'
+    end
+
     world
   end
 
@@ -100,33 +104,47 @@ describe 'Game of Life' do
         '**'
       ]
     end
-    
+
     it 'lives on to the next generation' do
       cell_in_next_gen = next_generation(world)[0][0]
       
-      expect(cell_in_next_gen).to eq '*'
+      expect(cell_in_next_gen).to be_alive
     end
 
     describe '2nd live neighbouring cell' do
       it 'lives on to the next generation' do
         cell_in_next_gen = next_generation(world)[1][0]
       
-        expect(cell_in_next_gen).to eq '*'
+        expect(cell_in_next_gen).to be_alive
       end
     end
 
     describe '3rd live neighbouring cell' do
-      it 'lives on to the next generation'
+      it 'lives on to the next generation' do
+        cell_in_next_gen = next_generation(world)[1][0]
+        
+        expect(cell_in_next_gen).to be_alive
+      end
     end
 
     describe 'Dead neighbouring cell' do
-      it 'is revived'
+      it 'is revived' do
+        cell_in_next_gen = next_generation(world)[0][1]
+        
+        expect(cell_in_next_gen).to be_alive
+      end
     end
   end
 
   RSpec::Matchers.define :be_dead do
     match do |cell|
       cell == '.'
+    end
+  end
+
+  RSpec::Matchers.define :be_alive do
+    match do |cell|
+      cell == '*'
     end
   end
 end
