@@ -1,29 +1,35 @@
 require 'ostruct'
 describe 'Game of Life' do
   def next_generation(world)
+    @world = world
     position = OpenStruct.new(x: 0, y: 0)
     neighbours = [
-      world[position.y][position.x + 1],
-      world[position.y + 1][position.x],
-      world[position.x + 1][position.y + 1] ]
+      cell_at(OpenStruct.new(x: 1, y: 0)),
+      cell_at(OpenStruct.new(x: 0, y: 1)),
+      cell_at(OpenStruct.new(x: 1, y: 1))
+    ]
     if neighbours.count { |cell| alive?(cell) } < 2
-      world[0][0] = '.'
+      @world[position.y][position.x] = '.'
     end
     position = OpenStruct.new(x: 1, y: 0)
     neighbours = [
-      world[position.y][position.x - 1],
-      world[position.y + 1][position.x - 1],
-      world[position.y + 1][position.x]
+      cell_at(OpenStruct.new(x: 0, y: 0)),
+      cell_at(OpenStruct.new(x: 0, y: 1)),
+      cell_at(OpenStruct.new(x: 1, y: 1))
     ]
     if neighbours.count { |cell| alive?(cell) } < 2
-      world[0][1] = '.'
+      @world[position.y][position.x] = '.'
     end
 
     if neighbours.count { |cell| alive?(cell) } == 3
-      world[0][1] = '*'
+      @world[position.y][position.x] = '*'
     end
 
-    world
+    @world
+  end
+
+  def cell_at(position)
+    @world[position.y][position.x]
   end
 
   def alive?(cell)
