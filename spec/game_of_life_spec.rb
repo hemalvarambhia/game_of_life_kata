@@ -8,24 +8,27 @@ describe 'Game of Life' do
       cell_at(OpenStruct.new(x: 0, y: 1)),
       cell_at(OpenStruct.new(x: 1, y: 1))
     ]
-    if neighbours.count { |cell| alive?(cell) } < 2
-      @world[position.y][position.x] = '.'
-    end
+    kill_cell_at(position) if neighbours.count { |cell| alive?(cell) } < 2
+
     position = OpenStruct.new(x: 1, y: 0)
     neighbours = [
       cell_at(OpenStruct.new(x: 0, y: 0)),
       cell_at(OpenStruct.new(x: 0, y: 1)),
       cell_at(OpenStruct.new(x: 1, y: 1))
     ]
-    if neighbours.count { |cell| alive?(cell) } < 2
-      @world[position.y][position.x] = '.'
-    end
+    kill_cell_at(position) if neighbours.count { |cell| alive?(cell) } < 2
 
-    if neighbours.count { |cell| alive?(cell) } == 3
-      @world[position.y][position.x] = '*'
-    end
+    revive_cell_at(position) if neighbours.count { |cell| alive?(cell) } == 3
 
     @world
+  end
+
+  def revive_cell_at(position)
+    @world[position.y][position.x] = '*'
+  end
+
+  def kill_cell_at(position)
+    @world[position.y][position.x] = '.'
   end
 
   def cell_at(position)
