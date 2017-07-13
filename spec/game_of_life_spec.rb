@@ -24,10 +24,10 @@ describe 'Game of Life' do
       OpenStruct.new(x: position.x + 1, y: position.y),
       OpenStruct.new(x: position.x - 1, y: position.y + 1),
       OpenStruct.new(x: position.x, y: position.y + 1),
-      OpenStruct.new(x: position.x + 1, y: position.y + 1),
-    ].
-      reject { |coord| coord.x < 0 || coord.y < 0 }.
-      map { |coord| cell_at(coord) }
+      OpenStruct.new(x: position.x + 1, y: position.y + 1)
+    ]
+      .reject { |coord| coord.x < 0 || coord.y < 0 }
+      .map { |coord| cell_at(coord) }
   end
 
   def revive_cell_at(position)
