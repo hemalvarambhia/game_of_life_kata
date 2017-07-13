@@ -3,24 +3,33 @@ describe 'Game of Life' do
   def next_generation(world)
     @world = world
     position = OpenStruct.new(x: 0, y: 0)
-    neighbours = [
-      cell_at(OpenStruct.new(x: 1, y: 0)),
-      cell_at(OpenStruct.new(x: 0, y: 1)),
-      cell_at(OpenStruct.new(x: 1, y: 1))
-    ]
+    neighbours = neighbours_of(position)
     kill_cell_at(position) if neighbours.count { |cell| alive?(cell) } < 2
-
+    revive_cell_at(position) if neighbours.count { |cell| alive?(cell) } == 3
+    
     position = OpenStruct.new(x: 1, y: 0)
-    neighbours = [
-      cell_at(OpenStruct.new(x: 0, y: 0)),
-      cell_at(OpenStruct.new(x: 0, y: 1)),
-      cell_at(OpenStruct.new(x: 1, y: 1))
-    ]
+    neighbours = neighbours_of(position)
     kill_cell_at(position) if neighbours.count { |cell| alive?(cell) } < 2
-
     revive_cell_at(position) if neighbours.count { |cell| alive?(cell) } == 3
 
+    
+    
     @world
+  end
+
+  def neighbours_of(position)
+    [
+      OpenStruct.new(x: position.x - 1, y: position.y - 1),
+      OpenStruct.new(x: position.x, y: position.y - 1),
+      OpenStruct.new(x: position.x + 1, y: position.y - 1),
+      OpenStruct.new(x: position.x - 1, y: position.y),
+      OpenStruct.new(x: position.x + 1, y: position.y),
+      OpenStruct.new(x: position.x - 1, y: position.y + 1),
+      OpenStruct.new(x: position.x, y: position.y + 1),
+      OpenStruct.new(x: position.x + 1, y: position.y + 1),
+    ].
+      reject { |coord| coord.x < 0 || coord.y < 0 }.
+      map { |coord| cell_at(coord) }
   end
 
   def revive_cell_at(position)
