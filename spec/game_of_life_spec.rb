@@ -12,8 +12,6 @@ describe 'Game of Life' do
     kill_cell_at(position) if neighbours.count { |cell| alive?(cell) } < 2
     revive_cell_at(position) if neighbours.count { |cell| alive?(cell) } == 3
 
-    
-    
     @world
   end
 
