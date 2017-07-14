@@ -12,6 +12,11 @@ describe 'Game of Life' do
     kill_cell_at(position) if neighbours.count { |cell| alive?(cell) } < 2
     revive_cell_at(position) if neighbours.count { |cell| alive?(cell) } == 3
 
+    position = OpenStruct.new(x: 0, y: 1)
+    neighbours = neighbours_of(position)
+    kill_cell_at(position) if neighbours.count { |cell| alive?(cell) } < 2
+    revive_cell_at(position) if neighbours.count { |cell| alive?(cell) } == 3
+
     @world
   end
 
@@ -26,8 +31,13 @@ describe 'Game of Life' do
       OpenStruct.new(x: position.x, y: position.y + 1),
       OpenStruct.new(x: position.x + 1, y: position.y + 1)
     ]
-      .reject { |coord| coord.x < 0 || coord.y < 0 }
+      .select { |coord| world_contains?(coord) }
       .map { |coord| cell_at(coord) }
+  end
+
+  def world_contains?(coord)
+    (0..@world[0].size - 1).include?(coord.x) &&
+      (0..@world.size - 1).include?(coord.y)
   end
 
   def revive_cell_at(position)
@@ -128,7 +138,7 @@ describe 'Game of Life' do
     end
   end
 
-  describe "*.\n  **" do
+  describe %{*.\n  **} do
     let(:world) do
       [
         '*.',
@@ -165,6 +175,39 @@ describe 'Game of Life' do
         cell_in_next_gen = next_generation(world)[0][1]
         
         expect(cell_in_next_gen).to be_alive
+      end
+    end
+  end
+
+  describe "**\n  .*" do
+    let(:world) do
+      [
+        '**',
+        '.*'
+      ]
+    end
+    
+    describe '1st live cell' do
+      it 'remains live in the next generation' do
+        first_cell = next_generation(world)[0][0]
+        
+        expect(first_cell).to be_alive
+      end
+    end
+
+    describe '2nd live cell' do
+      it 'remains live in the next generation' do
+        second_cell = next_generation(world)[0][1]
+        
+        expect(second_cell).to be_alive
+      end
+    end
+
+    describe 'Dead cell' do
+      it 'is revived in the next generation' do
+        third_cell = next_generation(world)[1][0]
+        
+        expect(third_cell).to be_alive
       end
     end
   end
