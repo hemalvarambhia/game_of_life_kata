@@ -46,30 +46,32 @@ describe 'Game of Life' do
     cell == '*'
   end
 
-  describe 'A dead cell with 3 dead neighbouring cells' do
+  describe "..\n  .." do
     let(:world) do
       [
         '..',
         '..'
       ]
     end
-
-    it 'remains dead in the next generation' do
-      cell_in_next_gen = next_generation(world)[0][0]
+    
+    describe '1st live cell' do
+      it 'remains dead in the next generation' do
+        cell_in_next_gen = next_generation(world)[0][0]
       
-      expect(cell_in_next_gen).to be_dead
-    end
+        expect(cell_in_next_gen).to be_dead
+      end
 
-    it 'has 3 dead neighbours in the next generation' do
-      next_world = next_generation(world)
+      it 'has 3 dead neighbours in the next generation' do
+        next_world = next_generation(world)
 
-      next_gen_neighbours =
-        [ next_world[0][1], next_world[1][0], next_world[1][1] ]
-      expect(next_gen_neighbours).to all be_dead
+        next_gen_neighbours =
+          [ next_world[0][1], next_world[1][0], next_world[1][1] ]
+        expect(next_gen_neighbours).to all be_dead
+      end
     end
   end
 
-  describe 'A live cell with 3 dead neighbouring cells' do
+  describe "*.\n  .." do
     let(:world) do
       [
         '*.',
@@ -77,52 +79,56 @@ describe 'Game of Life' do
       ]
     end
 
-    it 'dies in the next generation' do
-      cell_in_next_gen = next_generation(world)[0][0]
+    describe 'live cell' do
+      it 'dies in the next generation' do
+        cell_in_next_gen = next_generation(world)[0][0]
       
-      expect(cell_in_next_gen).to be_dead
-    end
+        expect(cell_in_next_gen).to be_dead
+      end
+    
+      it 'has 3 dead neighbours in the next generation' do
+        next_world = next_generation(world)
 
-    it 'has 3 dead neighbours in the next generation' do
-      next_world = next_generation(world)
-
-      next_gen_neighbours =
-        [ next_world[0][1], next_world[1][0], next_world[1][1] ]
-      expect(next_gen_neighbours).to all be_dead
+        next_gen_neighbours =
+          [ next_world[0][1], next_world[1][0], next_world[1][1] ]
+        expect(next_gen_neighbours).to all be_dead
+      end
     end
   end
 
-  describe 'A live cell with 1 live neighbour and 2 dead ones' do
+  describe "**\n  .." do
     let(:world) do
       [
         '**',
         '..'
       ]
     end
-
-    it 'dies in the next generation' do
-      cell_in_next_gen = next_generation(world)[0][0]
+    
+    describe '1st live cell' do
+      it 'dies in the next generation' do
+        cell_in_next_gen = next_generation(world)[0][0]
       
-      expect(cell_in_next_gen).to be_dead
+        expect(cell_in_next_gen).to be_dead
+      end
     end
 
-    describe 'The neighbouring live cell' do
+    describe '2nd live cell' do
       it 'also dies in the next generation' do
         cell_in_next_gen = next_generation(world)[0][1]
 
         expect(cell_in_next_gen).to be_dead
       end
-    end
 
-    it 'continues to have 2 neighbouring dead cells' do
-      cells_in_next_gen = next_generation(world)
+      it 'continues to have 2 neighbouring dead cells' do
+        cells_in_next_gen = next_generation(world)
       
-      dead_neighbours = [ cells_in_next_gen[1][0], cells_in_next_gen[1][1] ]
-      expect(dead_neighbours).to all be_dead
+        dead_neighbours = [ cells_in_next_gen[1][0], cells_in_next_gen[1][1] ]
+        expect(dead_neighbours).to all be_dead
+      end
     end
   end
 
-  describe 'A live cell with 2 live neighbours and 1 dead one' do
+  describe "*.\n  **" do
     let(:world) do
       [
         '*.',
@@ -130,13 +136,15 @@ describe 'Game of Life' do
       ]
     end
 
-    it 'lives on to the next generation' do
-      cell_in_next_gen = next_generation(world)[0][0]
+    describe '1st live cell' do
+      it 'lives on to the next generation' do
+        cell_in_next_gen = next_generation(world)[0][0]
       
-      expect(cell_in_next_gen).to be_alive
+        expect(cell_in_next_gen).to be_alive
+      end
     end
 
-    describe '2nd live neighbouring cell' do
+    describe '2nd live cell' do
       it 'lives on to the next generation' do
         cell_in_next_gen = next_generation(world)[1][0]
       
@@ -144,7 +152,7 @@ describe 'Game of Life' do
       end
     end
 
-    describe '3rd live neighbouring cell' do
+    describe '3rd live cell' do
       it 'lives on to the next generation' do
         cell_in_next_gen = next_generation(world)[1][0]
         
