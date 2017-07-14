@@ -17,16 +17,13 @@ describe 'Game of Life' do
   end
 
   def neighbours_of(position)
-    [
-      OpenStruct.new(x: position.x - 1, y: position.y - 1),
-      OpenStruct.new(x: position.x, y: position.y - 1),
-      OpenStruct.new(x: position.x + 1, y: position.y - 1),
-      OpenStruct.new(x: position.x - 1, y: position.y),
-      OpenStruct.new(x: position.x + 1, y: position.y),
-      OpenStruct.new(x: position.x - 1, y: position.y + 1),
-      OpenStruct.new(x: position.x, y: position.y + 1),
-      OpenStruct.new(x: position.x + 1, y: position.y + 1)
-    ]
+    [position.y - 1, position.y, position.y + 1].map do |y|
+      [position.x - 1, position.x, position.x + 1].map do |x|
+        OpenStruct.new(x: x, y: y)
+      end
+    end
+      .flatten
+      .reject { |coord| coord == position }
       .select { |coord| world_contains?(coord) }
       .map { |coord| cell_at(coord) }
   end
