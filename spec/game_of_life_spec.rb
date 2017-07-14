@@ -17,10 +17,8 @@ describe 'Game of Life' do
   end
 
   def neighbours_of(position)
-    [position.y - 1, position.y, position.y + 1].map do |y|
-      [position.x - 1, position.x, position.x + 1].map do |x|
-        OpenStruct.new(x: x, y: y)
-      end
+    (position.y - 1..position.y + 1).map do |y|
+      (position.x - 1..position.x + 1).map { |x| OpenStruct.new(x: x, y: y) }
     end
       .flatten
       .reject { |coord| coord == position }
