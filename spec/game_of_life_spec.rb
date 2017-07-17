@@ -208,14 +208,16 @@ describe 'Game of Life' do
   end
 
   describe ".*.\n  .*.\n  .*." do
+    let(:world) do
+      [
+        '.*.',
+        '.*.',
+        '.*.'
+      ]
+    end
+    
     describe '2nd live cell' do
       it 'remains alive in the next generation' do
-        world = [
-          '.*.',
-          '.*.',
-          '.*.'
-        ]
-
         cell = next_generation(world)[1][1]
 
         expect(cell).to be_alive
@@ -224,12 +226,6 @@ describe 'Game of Life' do
 
     describe '3rd dead cell' do
       it 'is revived in the next generation' do
-        world = [
-          '.*.',
-          '.*.',
-          '.*.'
-        ]
-        
         cell = next_generation(world)[1][0]
         
         expect(cell).to be_alive
@@ -238,12 +234,6 @@ describe 'Game of Life' do
 
     describe '3rd live cell' do
       it 'dies in the next generation' do
-        world = [
-          '.*.',
-          '.*.',
-          '.*.'
-        ]
-        
         cell = next_generation(world)[2][1]
         
         expect(cell).to be_dead
