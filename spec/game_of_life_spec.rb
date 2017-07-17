@@ -3,12 +3,11 @@ describe 'Game of Life' do
   def next_generation(world)
     @initial = world
     @world = world.map { |cells| cells.clone }
-    [
-      OpenStruct.new(x: 0, y: 0),
-      OpenStruct.new(x: 1, y: 0),
-      OpenStruct.new(x: 0, y: 1),
-      OpenStruct.new(x: 1, y: 1)
-    ].each do |position|
+    positions = (0..@initial.size - 1).map do |y|
+      (0..@initial[0].size - 1).map { |x| OpenStruct.new(x: x, y: y) }
+    end.flatten
+
+    positions.each do |position|
       neighbours = neighbours_of(position)
       kill_cell_at(position) if number_of_live(neighbours) < 2
       revive_cell_at(position) if number_of_live(neighbours) == 3
@@ -239,7 +238,6 @@ describe 'Game of Life' do
 
     describe '3rd live cell' do
       it 'dies in the next generation' do
-        pending
         world = [
           '.*.',
           '.*.',
