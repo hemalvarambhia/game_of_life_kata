@@ -1,7 +1,8 @@
 require 'ostruct'
 describe 'Game of Life' do
   def next_generation(world)
-    @world = world
+    @initial = world
+    @world = world.map { |cells| cells.clone }
     [
       OpenStruct.new(x: 0, y: 0),
       OpenStruct.new(x: 1, y: 0),
@@ -27,8 +28,8 @@ describe 'Game of Life' do
   end
 
   def world_contains?(coord)
-    (0..@world[0].size - 1).include?(coord.x) &&
-      (0..@world.size - 1).include?(coord.y)
+    (0..@initial[0].size - 1).include?(coord.x) &&
+      (0..@initial.size - 1).include?(coord.y)
   end
 
   def revive_cell_at(position)
@@ -40,7 +41,7 @@ describe 'Game of Life' do
   end
 
   def cell_at(position)
-    @world[position.y][position.x]
+    @initial[position.y][position.x]
   end
 
   def alive?(cell)
@@ -55,7 +56,7 @@ describe 'Game of Life' do
       ]
     end
     
-    describe '1st live cell' do
+    describe '1st dead cell' do
       it 'remains dead in the next generation' do
         cell_in_next_gen = next_generation(world)[0][0]
       
@@ -201,6 +202,35 @@ describe 'Game of Life' do
         expect(third_cell).to be_alive
       end
     end
+  end
+
+  describe ".*.\n  .*.\n  .*." do
+    describe '1st live cell' do
+      it 'remains alive in the next generation' do
+        world = [
+          '.*.',
+          '.*.',
+          '.*.'
+        ]
+
+        cell = next_generation(world)[1][1]
+
+        expect(cell).to be_alive
+      end
+    end
+
+    describe '2nd live cell' do
+      it 'remains alive in the next generation'
+    end
+
+    describe '3rd live cell' do
+      it 'remains alive in the next generation'
+    end
+
+    describe '4th live cell' do
+      it 'remains alive in the next generation'
+    end
+
   end
 
   RSpec::Matchers.define :be_dead do
