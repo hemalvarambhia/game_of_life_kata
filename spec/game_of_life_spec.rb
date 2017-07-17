@@ -205,7 +205,7 @@ describe 'Game of Life' do
   end
 
   describe ".*.\n  .*.\n  .*." do
-    describe '1st live cell' do
+    describe '2nd live cell' do
       it 'remains alive in the next generation' do
         world = [
           '.*.',
@@ -219,8 +219,18 @@ describe 'Game of Life' do
       end
     end
 
-    describe '2nd live cell' do
-      it 'remains alive in the next generation'
+    describe '3rd dead cell' do
+      it 'is revived in the next generation' do
+        world = [
+          '.*.',
+          '.*.',
+          '.*.'
+        ]
+        
+        cell = next_generation(world)[1][0]
+        
+        expect(cell).to be_alive
+      end
     end
 
     describe '3rd live cell' do
