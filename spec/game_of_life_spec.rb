@@ -10,11 +10,15 @@ describe 'Game of Life' do
       OpenStruct.new(x: 1, y: 1)
     ].each do |position|
       neighbours = neighbours_of(position)
-      kill_cell_at(position) if neighbours.count { |cell| alive?(cell) } < 2
-      revive_cell_at(position) if neighbours.count { |cell| alive?(cell) } == 3
+      kill_cell_at(position) if number_of_live(neighbours) < 2
+      revive_cell_at(position) if number_of_live(neighbours) == 3
     end
 
     @world
+  end
+
+  def number_of_live(neighbours)
+    neighbours.count { |cell| alive?(cell) }
   end
 
   def neighbours_of(position)
@@ -234,7 +238,18 @@ describe 'Game of Life' do
     end
 
     describe '3rd live cell' do
-      it 'remains alive in the next generation'
+      it 'dies in the next generation' do
+        pending
+        world = [
+          '.*.',
+          '.*.',
+          '.*.'
+        ]
+        
+        cell = next_generation(world)[2][1]
+        
+        expect(cell).to be_dead
+      end
     end
 
     describe '4th live cell' do
