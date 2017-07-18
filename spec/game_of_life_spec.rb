@@ -56,7 +56,7 @@ describe 'Game of Life' do
     end
   end
 
-  def next_generation(world)
+  subject(:next_world) do
     World.new(world).next_generation
   end
 
@@ -68,10 +68,6 @@ describe 'Game of Life' do
       ]
     end
 
-    subject(:next_world) do
-      World.new(world).next_generation
-    end
-    
     describe '1st dead cell' do
       it 'remains dead in the next generation' do
         cell_in_next_gen = next_world[0][0]
@@ -99,10 +95,6 @@ describe 'Game of Life' do
       ]
     end
 
-    subject(:next_world) do
-      World.new(world).next_generation
-    end
-
     describe 'live cell' do
       it 'dies in the next generation' do
         cell_in_next_gen = next_world[0][0]
@@ -126,10 +118,10 @@ describe 'Game of Life' do
         '..'
       ]
     end
-    
+
     describe '1st live cell' do
       it 'dies in the next generation' do
-        cell_in_next_gen = next_generation(world)[0][0]
+        cell_in_next_gen = next_world[0][0]
       
         expect(cell_in_next_gen).to be_dead
       end
@@ -137,13 +129,13 @@ describe 'Game of Life' do
 
     describe '2nd live cell' do
       it 'also dies in the next generation' do
-        cell_in_next_gen = next_generation(world)[0][1]
+        cell_in_next_gen = next_world[0][1]
 
         expect(cell_in_next_gen).to be_dead
       end
 
       it 'continues to have 2 neighbouring dead cells' do
-        cells_in_next_gen = next_generation(world)
+        cells_in_next_gen = next_world
       
         dead_neighbours = [ cells_in_next_gen[1][0], cells_in_next_gen[1][1] ]
         expect(dead_neighbours).to all be_dead
@@ -161,7 +153,7 @@ describe 'Game of Life' do
 
     describe '1st live cell' do
       it 'lives on to the next generation' do
-        cell_in_next_gen = next_generation(world)[0][0]
+        cell_in_next_gen = next_world[0][0]
       
         expect(cell_in_next_gen).to be_alive
       end
@@ -169,7 +161,7 @@ describe 'Game of Life' do
 
     describe '2nd live cell' do
       it 'lives on to the next generation' do
-        cell_in_next_gen = next_generation(world)[1][0]
+        cell_in_next_gen = next_world[1][0]
       
         expect(cell_in_next_gen).to be_alive
       end
@@ -177,7 +169,7 @@ describe 'Game of Life' do
 
     describe '3rd live cell' do
       it 'lives on to the next generation' do
-        cell_in_next_gen = next_generation(world)[1][0]
+        cell_in_next_gen = next_world[1][0]
         
         expect(cell_in_next_gen).to be_alive
       end
@@ -185,7 +177,7 @@ describe 'Game of Life' do
 
     describe 'Dead neighbouring cell' do
       it 'is revived' do
-        cell_in_next_gen = next_generation(world)[0][1]
+        cell_in_next_gen = next_world[0][1]
         
         expect(cell_in_next_gen).to be_alive
       end
@@ -202,7 +194,7 @@ describe 'Game of Life' do
     
     describe '1st live cell' do
       it 'remains live in the next generation' do
-        first_cell = next_generation(world)[0][0]
+        first_cell = next_world[0][0]
         
         expect(first_cell).to be_alive
       end
@@ -210,7 +202,7 @@ describe 'Game of Life' do
 
     describe '2nd live cell' do
       it 'remains live in the next generation' do
-        second_cell = next_generation(world)[0][1]
+        second_cell = next_world[0][1]
         
         expect(second_cell).to be_alive
       end
@@ -218,7 +210,7 @@ describe 'Game of Life' do
 
     describe 'Dead cell' do
       it 'is revived in the next generation' do
-        third_cell = next_generation(world)[1][0]
+        third_cell = next_world[1][0]
         
         expect(third_cell).to be_alive
       end
@@ -236,7 +228,7 @@ describe 'Game of Life' do
 
     describe '1st live cell' do
       it 'dies in the next generation' do
-        cell = next_generation(world)[0][1]
+        cell = next_world[0][1]
 
         expect(cell).to be_dead
       end
@@ -244,7 +236,7 @@ describe 'Game of Life' do
     
     describe '2nd live cell' do
       it 'remains alive in the next generation' do
-        cell = next_generation(world)[1][1]
+        cell = next_world[1][1]
 
         expect(cell).to be_alive
       end
@@ -252,7 +244,7 @@ describe 'Game of Life' do
 
     describe '3rd dead cell' do
       it 'is revived in the next generation' do
-        cell = next_generation(world)[1][0]
+        cell = next_world[1][0]
         
         expect(cell).to be_alive
       end
@@ -260,7 +252,7 @@ describe 'Game of Life' do
 
     describe '4th dead cell' do
       it 'is revived in the next generation' do
-        cell = next_generation(world)[1][2]
+        cell = next_world[1][2]
         
         expect(cell).to be_alive
       end
@@ -268,7 +260,7 @@ describe 'Game of Life' do
 
     describe '3rd live cell' do
       it 'dies in the next generation' do
-        cell = next_generation(world)[2][1]
+        cell = next_world[2][1]
         
         expect(cell).to be_dead
       end
