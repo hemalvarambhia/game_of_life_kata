@@ -6,7 +6,7 @@ describe 'Game of Life' do
       @world = world.map { |cells| cells.clone }
     end
     
-    def next_generation(world = nil)
+    def next_generation
       positions = (0..@initial.size - 1).map do |y|
         (0..@initial[0].size - 1).map { |x| OpenStruct.new(x: x, y: y) }
       end.flatten
@@ -19,6 +19,8 @@ describe 'Game of Life' do
 
       @world
     end
+
+    private
 
     def number_of_live(neighbours)
       neighbours.count { |cell| alive?(cell) }
@@ -264,6 +266,32 @@ describe 'Game of Life' do
         
         expect(cell).to be_dead
       end
+    end
+  end
+  
+  describe "**\n  **\n  *." do
+    describe '1st living cell' do
+      it 'survives in to the next generation'
+    end
+
+    describe '2nd living cell' do
+      it 'survives in to the next generation'
+    end
+
+    describe '3rd living cell' do
+      it 'dies in the next generation'
+    end
+
+    describe '4th living cell' do
+      it 'dies in the next generation'
+    end
+
+    describe '5th living cell' do
+      it 'survives in to the next generation'
+    end
+
+    describe 'dead cell' do
+      it 'is revived in the next generation'
     end
   end
 
