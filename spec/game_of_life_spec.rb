@@ -215,6 +215,14 @@ describe 'Game of Life' do
         '.*.'
       ]
     end
+
+    describe '1st live cell' do
+      it 'dies in the next generation' do
+        cell = next_generation(world)[0][1]
+
+        expect(cell).to be_dead
+      end
+    end
     
     describe '2nd live cell' do
       it 'remains alive in the next generation' do
@@ -232,6 +240,14 @@ describe 'Game of Life' do
       end
     end
 
+    describe '4th dead cell' do
+      it 'is revived in the next generation' do
+        cell = next_generation(world)[1][2]
+        
+        expect(cell).to be_alive
+      end
+    end
+
     describe '3rd live cell' do
       it 'dies in the next generation' do
         cell = next_generation(world)[2][1]
@@ -239,11 +255,6 @@ describe 'Game of Life' do
         expect(cell).to be_dead
       end
     end
-
-    describe '4th live cell' do
-      it 'remains alive in the next generation'
-    end
-
   end
 
   RSpec::Matchers.define :be_dead do
