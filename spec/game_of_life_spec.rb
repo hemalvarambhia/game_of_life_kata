@@ -1,54 +1,63 @@
 require 'ostruct'
 describe 'Game of Life' do
+  class World
+    def initialize(world)
+      @initial = world
+      @world = world.map { |cells| cells.clone }
+    end
+    
+    def next_generation(world = nil)
+      positions = (0..@initial.size - 1).map do |y|
+        (0..@initial[0].size - 1).map { |x| OpenStruct.new(x: x, y: y) }
+      end.flatten
+
+      positions.each do |position|
+        neighbours = neighbours_of(position)
+        kill_cell_at(position) if number_of_live(neighbours) < 2
+        revive_cell_at(position) if number_of_live(neighbours) == 3
+      end
+
+      @world
+    end
+
+    def number_of_live(neighbours)
+      neighbours.count { |cell| alive?(cell) }
+    end
+
+    def neighbours_of(position)
+      (position.y - 1..position.y + 1).map do |y|
+        (position.x - 1..position.x + 1).map { |x| OpenStruct.new(x: x, y: y) }
+      end
+        .flatten
+        .reject { |coord| coord == position }
+        .select { |coord| world_contains?(coord) }
+        .map { |coord| cell_at(coord) }
+    end
+
+    def world_contains?(coord)
+      (0..@initial[0].size - 1).include?(coord.x) &&
+        (0..@initial.size - 1).include?(coord.y)
+    end
+
+    def revive_cell_at(position)
+      @world[position.y][position.x] = '*'
+    end
+
+    def kill_cell_at(position)
+      @world[position.y][position.x] = '.'
+    end
+
+    def cell_at(position)
+      @initial[position.y][position.x]
+    end
+
+    def alive?(cell)
+      cell == '*'
+    end
+  end
+
   def next_generation(world)
-    @initial = world
-    @world = world.map { |cells| cells.clone }
-    positions = (0..@initial.size - 1).map do |y|
-      (0..@initial[0].size - 1).map { |x| OpenStruct.new(x: x, y: y) }
-    end.flatten
-
-    positions.each do |position|
-      neighbours = neighbours_of(position)
-      kill_cell_at(position) if number_of_live(neighbours) < 2
-      revive_cell_at(position) if number_of_live(neighbours) == 3
-    end
-
-    @world
-  end
-
-  def number_of_live(neighbours)
-    neighbours.count { |cell| alive?(cell) }
-  end
-
-  def neighbours_of(position)
-    (position.y - 1..position.y + 1).map do |y|
-      (position.x - 1..position.x + 1).map { |x| OpenStruct.new(x: x, y: y) }
-    end
-      .flatten
-      .reject { |coord| coord == position }
-      .select { |coord| world_contains?(coord) }
-      .map { |coord| cell_at(coord) }
-  end
-
-  def world_contains?(coord)
-    (0..@initial[0].size - 1).include?(coord.x) &&
-      (0..@initial.size - 1).include?(coord.y)
-  end
-
-  def revive_cell_at(position)
-    @world[position.y][position.x] = '*'
-  end
-
-  def kill_cell_at(position)
-    @world[position.y][position.x] = '.'
-  end
-
-  def cell_at(position)
-    @initial[position.y][position.x]
-  end
-
-  def alive?(cell)
-    cell == '*'
+    World.new(world).next_generation
   end
 
   describe "..\n  .." do
@@ -58,19 +67,25 @@ describe 'Game of Life' do
         '..'
       ]
     end
+
+    subject(:next_world) do
+      World.new(world).next_generation
+    end
     
     describe '1st dead cell' do
       it 'remains dead in the next generation' do
-        cell_in_next_gen = next_generation(world)[0][0]
+        cell_in_next_gen = next_world[0][0]
       
         expect(cell_in_next_gen).to be_dead
       end
 
       it 'has 3 dead neighbours in the next generation' do
-        next_world = next_generation(world)
+        next_generation_world = next_world
 
         next_gen_neighbours =
-          [ next_world[0][1], next_world[1][0], next_world[1][1] ]
+          [ next_generation_world[0][1],
+            next_generation_world[1][0], next_generation_world[1][1]
+          ]
         expect(next_gen_neighbours).to all be_dead
       end
     end
@@ -84,18 +99,21 @@ describe 'Game of Life' do
       ]
     end
 
+    subject(:next_world) do
+      World.new(world).next_generation
+    end
+
     describe 'live cell' do
       it 'dies in the next generation' do
-        cell_in_next_gen = next_generation(world)[0][0]
+        cell_in_next_gen = next_world[0][0]
       
         expect(cell_in_next_gen).to be_dead
       end
     
       it 'has 3 dead neighbours in the next generation' do
-        next_world = next_generation(world)
-
+        next_gen_world = next_world
         next_gen_neighbours =
-          [ next_world[0][1], next_world[1][0], next_world[1][1] ]
+          [ next_gen_world[0][1], next_gen_world[1][0], next_gen_world[1][1] ]
         expect(next_gen_neighbours).to all be_dead
       end
     end
