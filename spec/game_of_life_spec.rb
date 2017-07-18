@@ -7,10 +7,6 @@ describe 'Game of Life' do
     end
     
     def next_generation
-      positions = (0..@initial.size - 1).map do |y|
-        (0..@initial[0].size - 1).map { |x| OpenStruct.new(x: x, y: y) }
-      end.flatten
-
       positions.each do |position|
         neighbours = neighbours_of(position)
         kill_cell_at(position) if number_of_live(neighbours) < 2
@@ -22,6 +18,12 @@ describe 'Game of Life' do
 
     private
 
+    def positions
+      (0..@initial.size - 1).map do |y|
+        (0..@initial[0].size - 1).map { |x| OpenStruct.new(x: x, y: y) }
+      end.flatten
+    end
+
     def number_of_live(neighbours)
       neighbours.count { |cell| alive?(cell) }
     end
@@ -32,13 +34,12 @@ describe 'Game of Life' do
       end
         .flatten
         .reject { |coord| coord == position }
-        .select { |coord| world_contains?(coord) }
+        .select { |coord| contains?(coord) }
         .map { |coord| cell_at(coord) }
     end
 
-    def world_contains?(coord)
-      (0..@initial[0].size - 1).include?(coord.x) &&
-        (0..@initial.size - 1).include?(coord.y)
+    def contains?(coord)
+      positions.include? coord
     end
 
     def revive_cell_at(position)
