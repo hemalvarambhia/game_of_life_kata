@@ -313,11 +313,19 @@ describe 'Game of Life' do
     end
 
     describe '5th living cell' do
-      it 'survives in to the next generation'
+      it 'survives in to the next generation' do
+        cell = next_world[2][0]
+        
+        expect(cell).to be_alive
+      end
     end
 
     describe 'dead cell' do
-      it 'is revived in the next generation'
+      it 'is revived in the next generation' do
+        cell = world[2][1]
+        
+        expect(cell).to be_dead
+      end
     end
   end
 
