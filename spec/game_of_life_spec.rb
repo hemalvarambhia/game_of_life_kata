@@ -10,6 +10,7 @@ describe 'Game of Life' do
       positions.each do |position|
         neighbours = neighbours_of(position)
         kill_cell_at(position) if number_of_live(neighbours) < 2
+        kill_cell_at(position) if number_of_live(neighbours) > 3
         revive_cell_at(position) if number_of_live(neighbours) == 3
       end
 
@@ -271,20 +272,44 @@ describe 'Game of Life' do
   end
   
   describe "**\n  **\n  *." do
+    let(:world) do
+      [
+        '**',
+        '**',
+        '*.'
+      ]
+    end
+    
     describe '1st living cell' do
-      it 'survives in to the next generation'
+      it 'survives in to the next generation' do
+        cell = next_world[0][0]
+        
+        expect(cell).to be_alive
+      end
     end
 
     describe '2nd living cell' do
-      it 'survives in to the next generation'
+      it 'survives in to the next generation' do
+        cell = next_world[0][1]
+        
+        expect(cell).to be_alive
+      end
     end
 
     describe '3rd living cell' do
-      it 'dies in the next generation'
+      it 'dies in the next generation' do
+        cell = next_world[1][0]
+        
+        expect(cell).to be_dead
+      end
     end
 
     describe '4th living cell' do
-      it 'dies in the next generation'
+      it 'dies in the next generation' do
+        cell = next_world[1][1]
+        
+        expect(cell).to be_dead
+      end
     end
 
     describe '5th living cell' do
