@@ -1,8 +1,8 @@
 require 'ostruct'
 class World
   def initialize(world)
-    @initial = world
-    @world = world.map { |cells| cells.clone }
+    @current_generation = world
+    @next_generation = world.map { |cells| cells.clone }
   end
     
   def next_generation
@@ -14,14 +14,14 @@ class World
       revive_cell_at(position) if number_of_live(neighbours) == 3
     end
     
-    @world
+    @next_generation
   end
 
   private
 
   def positions
-    (0..@initial.size - 1).map do |y|
-      (0..@initial[0].size - 1).map { |x| coordinate(x, y) }
+    (0..@current_generation.size - 1).map do |y|
+      (0..@current_generation[0].size - 1).map { |x| coordinate(x, y) }
     end.flatten
   end
 
@@ -48,15 +48,15 @@ class World
   end
 
   def revive_cell_at(position)
-    @world[position.y][position.x] = '*'
+    @next_generation[position.y][position.x] = '*'
   end
 
   def kill_cell_at(position)
-    @world[position.y][position.x] = '.'
+    @next_generation[position.y][position.x] = '.'
   end
 
   def cell_at(position)
-    @initial[position.y][position.x]
+    @current_generation[position.y][position.x]
   end
 
   def alive?(cell)
