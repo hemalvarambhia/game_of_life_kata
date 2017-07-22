@@ -60,7 +60,7 @@ describe 'Game of Life' do
     end
   end
 
-  subject(:next_world) do
+  subject(:next_generation) do
     World.new(world).next_generation
   end
 
@@ -73,7 +73,7 @@ describe 'Game of Life' do
     end
 
     it "looks like #{['..', '..']} in the next generation" do
-      expect(next_world).to eq ['..','..']
+      expect(next_generation).to eq ['..','..']
     end
   end
 
@@ -86,7 +86,7 @@ describe 'Game of Life' do
     end
 
     it "looks like #{['..', '..']} in the next generation" do
-      expect(next_world).to eq ['..','..']
+      expect(next_generation).to eq ['..','..']
     end
   end
 
@@ -99,7 +99,7 @@ describe 'Game of Life' do
     end
 
     it "looks like #{['..','..']} in the next generation" do
-      expect(next_world).to eq ['..', '..']
+      expect(next_generation).to eq ['..', '..']
     end
   end
 
@@ -112,7 +112,7 @@ describe 'Game of Life' do
     end
 
     it "looks like #{['**', '**']} in the next generation" do
-      expect(next_world).to eq ['**', '**']
+      expect(next_generation).to eq ['**', '**']
     end
   end
 
@@ -125,7 +125,7 @@ describe 'Game of Life' do
     end
 
     it "looks like #{['**', '**']} in the next generation" do
-      expect(next_world).to eq ['**', '**']
+      expect(next_generation).to eq ['**', '**']
     end
   end
 
@@ -137,7 +137,7 @@ describe 'Game of Life' do
       ]
     end
     it "remains unchanged in the next generation" do
-      expect(next_world).to eq ['**', '**']
+      expect(next_generation).to eq ['**', '**']
     end
   end
 
@@ -151,7 +151,7 @@ describe 'Game of Life' do
     end
     
     it "remains unchanged in the next generation" do
-      expect(next_world).to eq ['.**.', '*..*', '.**.']
+      expect(next_generation).to eq ['.**.', '*..*', '.**.']
     end
   end
 
@@ -165,7 +165,7 @@ describe 'Game of Life' do
     end
 
     it "looks like #{['...', '***', '...']} in the next generation" do
-      expect(next_world).to eq ['...', '***', '...']
+      expect(next_generation).to eq ['...', '***', '...']
     end
   end
   
@@ -179,7 +179,7 @@ describe 'Game of Life' do
     end
 
     it "looks like #{['**', '..', '**']} in the next generation" do
-      expect(next_world). to eq ['**', '..', '**']
+      expect(next_generation).to eq ['**', '..', '**']
     end
   end
 
