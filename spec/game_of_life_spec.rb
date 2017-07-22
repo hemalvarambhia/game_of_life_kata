@@ -64,7 +64,7 @@ describe 'Game of Life' do
     World.new(world).next_generation
   end
 
-  describe "Given a world that looks like #{['..', '..']}" do
+  describe "A world that looks like #{['..', '..']}" do
     let(:world) do
       [
         '..',
@@ -77,7 +77,7 @@ describe 'Game of Life' do
     end
   end
 
-  describe "Given a world that looks like #{['*.', '..']}" do
+  describe "A world that looks like #{['*.', '..']}" do
     let(:world) do
       [
         '*.',
@@ -90,7 +90,7 @@ describe 'Game of Life' do
     end
   end
 
-  describe "Given a world that looks like #{['**', '..']}" do
+  describe "A world that looks like #{['**', '..']}" do
     let(:world) do
       [
         '**',
@@ -103,7 +103,7 @@ describe 'Game of Life' do
     end
   end
 
-  describe "Given a world that looks like #{['*.', '**']}" do
+  describe "A world that looks like #{['*.', '**']}" do
     let(:world) do
       [
         '*.',
@@ -116,7 +116,7 @@ describe 'Game of Life' do
     end
   end
 
-  describe "Given a world that looks like #{['**','.*']}" do
+  describe "A world that looks like #{['**','.*']}" do
     let(:world) do
       [
         '**',
@@ -155,7 +155,7 @@ describe 'Game of Life' do
     end
   end
 
-  describe "Given a world that looks like #{['.*.',  '.*.',  '.*.']}" do
+  describe "A world that looks like #{['.*.',  '.*.',  '.*.']}" do
     let(:world) do
       [
         '.*.',
@@ -169,7 +169,7 @@ describe 'Game of Life' do
     end
   end
   
-  describe "Given a world that looks like #{['**', '**', '*.']}" do
+  describe "A world that looks like #{['**', '**', '*.']}" do
     let(:world) do
       [
         '**',
