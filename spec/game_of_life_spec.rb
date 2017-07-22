@@ -141,6 +141,20 @@ describe 'Game of Life' do
     end
   end
 
+  describe "A world that looks like #{['.**.', '*..*', '.**.']}" do
+    let(:world) do
+      [
+        '.**.',
+        '*..*',
+        '.**.'
+      ]
+    end
+    
+    it "remains unchanged in the next generation" do
+      expect(next_world).to eq ['.**.', '*..*', '.**.']
+    end
+  end
+
   describe "Given a world that looks like #{['.*.',  '.*.',  '.*.']}" do
     let(:world) do
       [
