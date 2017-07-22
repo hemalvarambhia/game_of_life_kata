@@ -64,7 +64,7 @@ describe 'Game of Life' do
     World.new(world).next_generation
   end
 
-  describe "..\n  .." do
+  describe "Given a world that looks like #{['..', '..']}" do
     let(:world) do
       [
         '..',
@@ -72,26 +72,12 @@ describe 'Game of Life' do
       ]
     end
 
-    describe '1st dead cell' do
-      it 'remains dead in the next generation' do
-        cell_in_next_gen = next_world[0][0]
-      
-        expect(cell_in_next_gen).to be_dead
-      end
-
-      it 'has 3 dead neighbours in the next generation' do
-        next_generation_world = next_world
-
-        next_gen_neighbours =
-          [ next_generation_world[0][1],
-            next_generation_world[1][0], next_generation_world[1][1]
-          ]
-        expect(next_gen_neighbours).to all be_dead
-      end
+    it "looks like #{['..', '..']} in the next generation" do
+      expect(next_world).to eq ['..','..']
     end
   end
 
-  describe "*.\n  .." do
+  describe "Given a world that looks like #{['*.', '..']}" do
     let(:world) do
       [
         '*.',
@@ -99,23 +85,12 @@ describe 'Game of Life' do
       ]
     end
 
-    describe 'live cell' do
-      it 'dies in the next generation' do
-        cell_in_next_gen = next_world[0][0]
-      
-        expect(cell_in_next_gen).to be_dead
-      end
-    
-      it 'has 3 dead neighbours in the next generation' do
-        next_gen_world = next_world
-        next_gen_neighbours =
-          [ next_gen_world[0][1], next_gen_world[1][0], next_gen_world[1][1] ]
-        expect(next_gen_neighbours).to all be_dead
-      end
+    it "looks like #{['..', '..']} in the next generation" do
+      expect(next_world).to eq ['..','..']
     end
   end
 
-  describe "**\n  .." do
+  describe "Given a world that looks like #{['**', '..']}" do
     let(:world) do
       [
         '**',
@@ -123,31 +98,12 @@ describe 'Game of Life' do
       ]
     end
 
-    describe '1st live cell' do
-      it 'dies in the next generation' do
-        cell_in_next_gen = next_world[0][0]
-      
-        expect(cell_in_next_gen).to be_dead
-      end
-    end
-
-    describe '2nd live cell' do
-      it 'also dies in the next generation' do
-        cell_in_next_gen = next_world[0][1]
-
-        expect(cell_in_next_gen).to be_dead
-      end
-
-      it 'continues to have 2 neighbouring dead cells' do
-        cells_in_next_gen = next_world
-      
-        dead_neighbours = [ cells_in_next_gen[1][0], cells_in_next_gen[1][1] ]
-        expect(dead_neighbours).to all be_dead
-      end
+    it "looks like #{['..','..']} in the next generation" do
+      expect(next_world).to eq ['..', '..']
     end
   end
 
-  describe %{*.\n  **} do
+  describe "Given a world that looks like #{['*.', '**']}" do
     let(:world) do
       [
         '*.',
@@ -155,73 +111,25 @@ describe 'Game of Life' do
       ]
     end
 
-    describe '1st live cell' do
-      it 'lives on to the next generation' do
-        cell_in_next_gen = next_world[0][0]
-      
-        expect(cell_in_next_gen).to be_alive
-      end
-    end
-
-    describe '2nd live cell' do
-      it 'lives on to the next generation' do
-        cell_in_next_gen = next_world[1][0]
-      
-        expect(cell_in_next_gen).to be_alive
-      end
-    end
-
-    describe '3rd live cell' do
-      it 'lives on to the next generation' do
-        cell_in_next_gen = next_world[1][0]
-        
-        expect(cell_in_next_gen).to be_alive
-      end
-    end
-
-    describe 'Dead neighbouring cell' do
-      it 'is revived' do
-        cell_in_next_gen = next_world[0][1]
-        
-        expect(cell_in_next_gen).to be_alive
-      end
+    it "looks like #{['**', '**']} in the next generation" do
+      expect(next_world).to eq ['**', '**']
     end
   end
 
-  describe "**\n  .*" do
+  describe "Given a world that looks like #{['**','.*']}" do
     let(:world) do
       [
         '**',
         '.*'
       ]
     end
-    
-    describe '1st live cell' do
-      it 'remains live in the next generation' do
-        first_cell = next_world[0][0]
-        
-        expect(first_cell).to be_alive
-      end
-    end
 
-    describe '2nd live cell' do
-      it 'remains live in the next generation' do
-        second_cell = next_world[0][1]
-        
-        expect(second_cell).to be_alive
-      end
-    end
-
-    describe 'Dead cell' do
-      it 'is revived in the next generation' do
-        third_cell = next_world[1][0]
-        
-        expect(third_cell).to be_alive
-      end
+    it "looks like #{['**', '**']} in the next generation" do
+      expect(next_world).to eq ['**', '**']
     end
   end
 
-  describe ".*.\n  .*.\n  .*." do
+  describe "Given a world that looks like #{['.*.',  '.*.',  '.*.']}" do
     let(:world) do
       [
         '.*.',
@@ -230,48 +138,12 @@ describe 'Game of Life' do
       ]
     end
 
-    describe '1st live cell' do
-      it 'dies in the next generation' do
-        cell = next_world[0][1]
-
-        expect(cell).to be_dead
-      end
-    end
-    
-    describe '2nd live cell' do
-      it 'remains alive in the next generation' do
-        cell = next_world[1][1]
-
-        expect(cell).to be_alive
-      end
-    end
-
-    describe '3rd dead cell' do
-      it 'is revived in the next generation' do
-        cell = next_world[1][0]
-        
-        expect(cell).to be_alive
-      end
-    end
-
-    describe '4th dead cell' do
-      it 'is revived in the next generation' do
-        cell = next_world[1][2]
-        
-        expect(cell).to be_alive
-      end
-    end
-
-    describe '3rd live cell' do
-      it 'dies in the next generation' do
-        cell = next_world[2][1]
-        
-        expect(cell).to be_dead
-      end
+    it "looks like #{['...', '***', '...']} in the next generation" do
+      expect(next_world).to eq ['...', '***', '...']
     end
   end
   
-  describe "**\n  **\n  *." do
+  describe "Given a world that looks like #{['**', '**', '*.']}" do
     let(:world) do
       [
         '**',
@@ -279,53 +151,9 @@ describe 'Game of Life' do
         '*.'
       ]
     end
-    
-    describe '1st living cell' do
-      it 'survives in to the next generation' do
-        cell = next_world[0][0]
-        
-        expect(cell).to be_alive
-      end
-    end
 
-    describe '2nd living cell' do
-      it 'survives in to the next generation' do
-        cell = next_world[0][1]
-        
-        expect(cell).to be_alive
-      end
-    end
-
-    describe '3rd living cell' do
-      it 'dies in the next generation' do
-        cell = next_world[1][0]
-        
-        expect(cell).to be_dead
-      end
-    end
-
-    describe '4th living cell' do
-      it 'dies in the next generation' do
-        cell = next_world[1][1]
-        
-        expect(cell).to be_dead
-      end
-    end
-
-    describe '5th living cell' do
-      it 'survives in to the next generation' do
-        cell = next_world[2][0]
-        
-        expect(cell).to be_alive
-      end
-    end
-
-    describe 'dead cell' do
-      it 'is revived in the next generation' do
-        cell = world[2][1]
-        
-        expect(cell).to be_dead
-      end
+    it "looks like #{['**', '..', '**']} in the next generation" do
+      expect(next_world). to eq ['**', '..', '**']
     end
   end
 
