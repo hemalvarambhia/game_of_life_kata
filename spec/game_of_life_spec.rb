@@ -21,7 +21,7 @@ describe 'Game of Life' do
 
     def positions
       (0..@initial.size - 1).map do |y|
-        (0..@initial[0].size - 1).map { |x| OpenStruct.new(x: x, y: y) }
+        (0..@initial[0].size - 1).map { |x| coordinate(x, y) }
       end.flatten
     end
 
@@ -31,7 +31,7 @@ describe 'Game of Life' do
 
     def neighbours_of(position)
       (position.y - 1..position.y + 1).map do |y|
-        (position.x - 1..position.x + 1).map { |x| OpenStruct.new(x: x, y: y) }
+        (position.x - 1..position.x + 1).map { |x| coordinate(x, y) }
       end
         .flatten
         .reject { |coord| coord == position }
@@ -41,6 +41,10 @@ describe 'Game of Life' do
 
     def contains?(coord)
       positions.include? coord
+    end
+
+    def coordinate(x, y)
+      OpenStruct.new(x: x, y: y)
     end
 
     def revive_cell_at(position)
