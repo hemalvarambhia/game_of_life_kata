@@ -9,8 +9,9 @@ describe 'Game of Life' do
     def next_generation
       positions.each do |position|
         neighbours = neighbours_of(position)
-        kill_cell_at(position) if number_of_live(neighbours) < 2
-        kill_cell_at(position) if number_of_live(neighbours) > 3
+        if number_of_live(neighbours) < 2 || number_of_live(neighbours) > 3
+          kill_cell_at(position)
+        end
         revive_cell_at(position) if number_of_live(neighbours) == 3
       end
 
@@ -170,6 +171,21 @@ describe 'Game of Life' do
 
     it "looks like #{['...', '***', '...']} in the next generation" do
       expect(next_generation).to eq ['...', '***', '...']
+    end
+  end
+
+  describe "Beacon" do
+    let(:world) do
+      [
+        '**..',
+        '*...',
+        '...*',
+        '..**'
+      ]
+    end
+    
+    it "looks like #{['**..', '**..', '..**', '..**']} in the next generation" do
+      expect(next_generation).to eq ['**..', '**..', '..**', '..**']
     end
   end
 
