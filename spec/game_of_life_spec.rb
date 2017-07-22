@@ -133,7 +133,7 @@ describe 'Game of Life' do
     end
   end
 
-  describe "A world that looks like #{['**', '**']}" do
+  describe "Block" do
     let(:world) do
       [
         '**',
@@ -145,7 +145,7 @@ describe 'Game of Life' do
     end
   end
 
-  describe "A world that looks like #{['.**.', '*..*', '.**.']}" do
+  describe "Beehive" do
     let(:world) do
       [
         '.**.',
@@ -159,7 +159,7 @@ describe 'Game of Life' do
     end
   end
 
-  describe "A world that looks like #{['.*.',  '.*.',  '.*.']}" do
+  describe "Blinker" do
     let(:world) do
       [
         '.*.',
@@ -170,6 +170,21 @@ describe 'Game of Life' do
 
     it "looks like #{['...', '***', '...']} in the next generation" do
       expect(next_generation).to eq ['...', '***', '...']
+    end
+  end
+
+  describe "Glider" do
+    let(:world) do
+      [
+        '.*.',
+        '..*',
+        '***',
+        '...'
+      ]
+    end
+
+    it "looks like #{['...', '*.*', '.**', '.*.']} in the next generation" do
+      expect(next_generation).to eq ['...', '*.*', '.**', '.*.']
     end
   end
   
